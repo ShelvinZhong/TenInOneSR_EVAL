@@ -27,3 +27,9 @@ CUDA_VISIBLE_DEVICES=0 python test_demo.py \
 # do
 #     CUDA_VISIBLE_DEVICES=0 python test_demo.py --data_dir "$DATA_DIR" --save_dir "$SAVE_DIR" --include_test --model_id "$model_id"
 # done
+CUDA_VISIBLE_DEVICES=0 python test_demo.py --data_dir ./ --save_dir ./results --model_id 50
+CUDA_VISIBLE_DEVICES=0 python test_demo.py \
+    --data_dir ./DIV2K_LSDIR_test_LR \
+    --save_dir ./results \
+    --model_id 50 \
+    --include_test

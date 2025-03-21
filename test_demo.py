@@ -27,13 +27,14 @@ def select_model(args, device):
         model_path = os.path.join('model_zoo', 'team00_EFDN.pth')
         model = EFDN()
         model.load_state_dict(torch.load(model_path), strict=True)
-    elif model_id == 1:
+    elif model_id == 50:
         pass # ---- Put your model here as below ---
-        # from models.team01_[your_model_name] import [your_model_name]
-        # name, data_range = f"{model_id:02}_[your_model_name]", [255.0 / 1.0] # You can choose either 1.0 or 255.0 based on your own model
-        # model_path = os.path.join('model_zoo', 'team01_[your_model_name].pth')
-        # model = [your_model_name]()
-        # model.load_state_dict(torch.load(model_path), strict=True)
+        from models.team50_TenInOneSR import TenInOneSR
+        name, data_range = f"{model_id:02}_TenInOneSR_baseline", 1.0
+        model_path = os.path.join('model_zoo', 'team50_TenInOneSR.pth')
+        model = TenInOneSR()
+        ckpt = torch.load(model_path)
+        model.load_state_dict(ckpt['params_ema'], strict=False)
     else:
         raise NotImplementedError(f"Model {model_id} is not implemented.")
 
@@ -173,7 +174,7 @@ def run(model, model_name, data_range, tile, logger, device, args, mode="test"):
         # print(os.path.join(save_path, img_name+ext))
             
         # --- Save Restored Images ---
-        # util.imsave(img_sr, os.path.join(save_path, img_name+ext))
+        util.imsave(img_sr, os.path.join(save_path, img_name+ext))
 
     results[f"{mode}_memory"] = torch.cuda.max_memory_allocated(torch.cuda.current_device()) / 1024 ** 2
     results[f"{mode}_ave_runtime"] = sum(results[f"{mode}_runtime"]) / len(results[f"{mode}_runtime"]) #/ 1000.0
